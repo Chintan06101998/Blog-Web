@@ -21,7 +21,7 @@ const server = http.createServer((req, res) => {  // request by create server an
     res.setHeader('Content-Type', 'text/html');
 
 
-    let path = './view/';
+    let path = './views/';
 
     // TODO: For redirect to multiple page 
     switch (req.url) {
@@ -52,7 +52,7 @@ const server = http.createServer((req, res) => {  // request by create server an
 
 
     // TODO: second response
-    //  fs.readFile('./view/index.html',(err, data)=>{
+    //  fs.readFile('./views/index.html',(err, data)=>{
     //     if(err){
     //         console.log(err);
     //     }else{
