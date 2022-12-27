@@ -40,10 +40,14 @@ app.use((req,res, next)=>{  // next is used to tell browser that what ypu have t
 
 //TODO: middleware and static files
 app.use(express.static('public'));
+app.use(express.urlencoded({extended:true})); // all uel encoded data oass to the 
 app.use(morgan('dev'));
 
 
+
 // TODO: mongoose and mongo sandBox routes
+
+/*
 app.get('/add-blog',(req,res)=>{
 
     const blog = new Blog({
@@ -59,10 +63,11 @@ app.get('/add-blog',(req,res)=>{
     .catch((err)=>{
         console.log(err);
     })
-})
+})  */
 
 // TODO: another for databse
 
+/*
 app.get('/all-blogs',(req,res)=>{
     Blog.find()   // when we have to find the all blogs we directly use method on Blog collection
     .then((result)=>{
@@ -71,9 +76,22 @@ app.get('/all-blogs',(req,res)=>{
     .catch((err)=>{
         console.log(err);
     })
-});
+}); */
 
 // TODO: for single Blog
+
+/*
+app.get('/single-blogs',(req,res)=>{
+    Blog.findById('63ab12c05b7c7a7444e93a93')   // when we have to find the all blogs we directly use method on Blog collection
+    .then((result)=>{
+        res.send(result);
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+}); */
+
+
 
 
 // TODO: register View Engine
@@ -87,7 +105,7 @@ app.get('/',(req,res)=>{
         {title: 'Neeharika work for TCS', snippet:'Explaination and understanding of java and sql is more important'},
         {title: 'Neeharika work for TCS', snippet:'Explaination and understanding of java and sql is more important'}
     ]
-    res.render('index',{title:'Home',blogs});
+    res.redirect('/blogs');
 });
 
 /*
@@ -110,6 +128,26 @@ app.get('/about-us',(req,res)=>{
 
 app.get('/create',(req,res)=>{   //TODO: it is only used for get request and give spefific file
     res.render('create',{title:'Create a new blog'});
+})
+
+
+//TODO: Blog routes
+app.get('/blogs',(req,res)=>{
+    Blog.find().sort({createdAt:-1})
+    .then((result)=>{
+        res.render('index',{title:'All Blogs',blogs:result})
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+})
+
+//TODO: POST request of form
+
+app.post('/blogs',(req,res)=>{
+
+    console.log(req.body);
+
 })
 
 app.use((req,res)=>{   // TODO: USE method run for any request doesnot matter it is post or get method
