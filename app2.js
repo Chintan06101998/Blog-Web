@@ -12,12 +12,17 @@ app.set('view engine','ejs');
 
 app.get('/',(req,res)=>{
     //res.send('<h1>WEE</h2>');
-    res.render('index');
+    const blogs = [
+        {title: 'Neeharika work for TCS', snippet:'Explaination and understanding of java and sql is more important'},
+        {title: 'Neeharika work for TCS', snippet:'Explaination and understanding of java and sql is more important'},
+        {title: 'Neeharika work for TCS', snippet:'Explaination and understanding of java and sql is more important'}
+    ]
+    res.render('index',{title:'Home',blogs});
 });
 
 app.get('/about',(req,res)=>{
     //res.send('<h1>WEE</h2>');
-    res.render('about');
+    res.render('about',{title:'about'});
 });
 
 app.get('/about-us',(req,res)=>{
@@ -25,10 +30,10 @@ app.get('/about-us',(req,res)=>{
     res.redirect('/about');
 });
 
-app.get('blogs/create',()=>{
-    res.render();
+app.get('/create',(req,res)=>{
+    res.render('create',{title:'Create a new blog'});
 })
 
 app.use((req,res)=>{
-    res.status(404).render('404');
+    res.status(404).render('404',{title:'404'});
 })
