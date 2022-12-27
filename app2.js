@@ -1,11 +1,27 @@
 const express = require("express");
 const morgan = require('morgan');
+const mongoose = require("mongoose");
+const blog = require('./models/blog');
+const Blog = require("./models/blog");
+const { result } = require("lodash");
+
 
 //TODO: Express app
 
 const app = express();
 
-app.listen(3000);
+//TODO: To connect with MongoDB
+const urlDB = "mongodb+srv://chintupatel61098:JQG8YvpUYM3WUZWL@nodedemo.y4to5j5.mongodb.net/nodedemo?retryWrites=true&w=majority";
+mongoose.connect(urlDB)
+.then((res)=>{
+    app.listen(3000); 
+}).catch((error)=>{
+    console.log(error);
+})
+
+
+
+// app.listen(3000); we put this line in above coonection because we want to listen request after connecting with database
 
 //TODO: create middleware by using USE method
 
@@ -22,7 +38,42 @@ app.use((req,res, next)=>{  // next is used to tell browser that what ypu have t
 
 */
 
+//TODO: middleware and static files
+app.use(express.static('public'));
 app.use(morgan('dev'));
+
+
+// TODO: mongoose and mongo sandBox routes
+app.get('/add-blog',(req,res)=>{
+
+    const blog = new Blog({
+        title: 'new Blogs 2',
+        snippet:'About my blog',
+        body: 'More about my blogs'
+    });
+
+    blog.save()   // to save blog in collection we use instance of blog
+    .then((result)=>{
+        res.send(result);
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+})
+
+// TODO: another for databse
+
+app.get('/all-blogs',(req,res)=>{
+    Blog.find()   // when we have to find the all blogs we directly use method on Blog collection
+    .then((result)=>{
+        res.send(result);
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+});
+
+// TODO: for single Blog
 
 
 // TODO: register View Engine
