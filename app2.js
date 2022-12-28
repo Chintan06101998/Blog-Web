@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const blog = require('./models/blog');
 const Blog = require("./models/blog");
 const { result } = require("lodash");
+const { render } = require("ejs");
 
 
 //TODO: Express app
@@ -40,7 +41,7 @@ app.use((req,res, next)=>{  // next is used to tell browser that what ypu have t
 
 //TODO: middleware and static files
 app.use(express.static('public'));
-app.use(express.urlencoded({extended:true})); // all uel encoded data oass to the 
+app.use(express.urlencoded({extended:true})); //  /blog ma data aave pachhi aene eva format me convert kare jethi aapde aene store kari sakiae database ma
 app.use(morgan('dev'));
 
 
@@ -144,10 +145,42 @@ app.get('/blogs',(req,res)=>{
 
 //TODO: POST request of form
 
-app.post('/blogs',(req,res)=>{
+app.post('/blogs',(req,res)=>{   //  /blogs par request mokli ti form ae
+    const blog = Blog(req.body);
+    blog.save()
+    .then((result)=>{
+        res.redirect('blogs');
+    }).catch((err)=>{
+        console.log(err);
+    })
 
-    console.log(req.body);
+})
 
+//TODO: for ID
+
+app.get('/blogs/:id',(req,res)=>{
+    const id = req.params.id;
+    console.log(id);
+    Blog.findById(id)
+    .then(result=>{
+        res.render('details',{blog: result, title:'blog details'});
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+});
+
+// TODO: to delete blog
+
+app.delete('/blogs/:id',(req,res)=>{
+    const id = req.params.id;
+
+    Blog.findByIdAndDelete(id)
+    .then(result=>{
+        res.json({redirect:'/blogs'})
+    }).catch((err)=>{
+        console.log(err);
+    })
 })
 
 app.use((req,res)=>{   // TODO: USE method run for any request doesnot matter it is post or get method
