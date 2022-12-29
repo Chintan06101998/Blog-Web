@@ -29,7 +29,9 @@ app.get('/about-us',(req,res)=>{
 });
 
 //TODO: 404 page  : use fun for every single request doesnot matter what URL it is
-
+// thismethod is used as a middleware also
 app.use((req,res)=>{      // note that place it in last because it fire for every request
     res.statusCode(404).sendFile('./views/PageError.html',{root: __dirname})
 })
+
+// if we put above method in middle of course then request is definetly handle by this method and methods that below this method are not checked
