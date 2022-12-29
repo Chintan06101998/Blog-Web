@@ -4,11 +4,6 @@ const express = require("express");
 
 const app = express();
 
-// TODO: register views Engine
-app.set('views engine','ejs');
-//app.set('viewss', 'myviewsa') //myviews means path that contain your views
-
-
 //TODO: listen for request
 app.listen(3000);
 
