@@ -22,8 +22,7 @@ const server = http.createServer((req, res) => {  // request by create server an
 
 
     let path = './views/';
-
-    // TODO: For redirect to multiple page 
+    // TODO: For redirect to multiple Routes
     switch (req.url) {
         case '/':
             path += 'index.html';
@@ -63,7 +62,7 @@ const server = http.createServer((req, res) => {  // request by create server an
     //  })
 
 
-    // TODO: third
+    // TODO: third response HTML file 
 
     fs.readFile(path, (err, data) => {
         if (err) {
