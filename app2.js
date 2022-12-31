@@ -40,7 +40,7 @@ app.use((req,res, next)=>{  // next is used to tell browser that what ypu have t
 */
 
 //TODO: middleware and static files
-app.use(express.static('public'));
+app.use(express.static('public'));  // public is folder in current directory
 app.use(express.urlencoded({extended:true})); //  /blog ma data aave pachhi aene eva format me convert kare jethi aapde aene store kari sakiae database ma
 app.use(morgan('dev'));
 
@@ -134,7 +134,7 @@ app.get('/create',(req,res)=>{   //TODO: it is only used for get request and giv
 
 //TODO: Blog routes
 app.get('/blogs',(req,res)=>{
-    Blog.find().sort({createdAt:-1})
+    Blog.find().sort({createdAt:-1})   // Blog is model
     .then((result)=>{
         res.render('index',{title:'All Blogs',blogs:result})
     })
@@ -146,10 +146,10 @@ app.get('/blogs',(req,res)=>{
 //TODO: POST request of form
 
 app.post('/blogs',(req,res)=>{   //  /blogs par request mokli ti form ae
-    const blog = Blog(req.body);
+    const blog = Blog(req.body);  // we use middleware above  TODO: req.body ma data aave form mathi but ae undefine hy  so middle aware use kariae and aene Blog model no use karine databse ma store karvano try kariae chhiae
     blog.save()
     .then((result)=>{
-        res.redirect('blogs');
+        res.redirect('blogs'); // aftercsubmitting redirect to home page whivh has a /blogs url
     }).catch((err)=>{
         console.log(err);
     })
@@ -163,7 +163,7 @@ app.get('/blogs/:id',(req,res)=>{
     console.log(id);
     Blog.findById(id)
     .then(result=>{
-        res.render('details',{blog: result, title:'blog details'});
+        res.render('details',{blog: result, title:'blog details'}); // details is page
     })
     .catch((err)=>{
         console.log(err);
@@ -172,7 +172,7 @@ app.get('/blogs/:id',(req,res)=>{
 
 // TODO: to delete blog
 
-app.delete('/blogs/:id',(req,res)=>{
+app.delete('/blogs/:id',(req,res)=>{  // :id is routh parameter // Route parameter is variable of route this can be change.. ID is variable
     const id = req.params.id;
 
     Blog.findByIdAndDelete(id)
